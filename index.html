@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Telecontrol</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-2">
+					Filtrar: <select id="pesq-grupo" onChange="SelecionaG(this)">
+				  	</select>				  	
+				</div>				
+				<div class="col-lg-2">
+					<input type="checkbox" name="vehicle" id="ck-inativo" value="1"> Inativos
+				</div>
+				<div class="col-lg-offset-3 col-lg-3 col-md-7" id="campo-pesquisa">
+					<input type="text" class="form-control" id=txt-pesquisa placeholder="Nome ou Telefone">
+				</div>
+				<div class="col-lg-2" id="btnPesquisa">
+					<button class="btn btn-default" id="butonPesquisa" onclick="Pesquisar();">Pesquisar</button>
+					<button class="btn btn-default" id="butonPesquisa" onclick="Pesquisar(1);">Limpar</button>
+				</div>
+			</div>
+			<div class="row" id="row-table">
+				<table class="table table-bordered" id="table-usuario">
+				</table>
+			</div>
+		</div>
+		<div class="container">
+			<div class="row" id="row-op">
+				<div class="col-lg-offset-8 col-lg-1 col-md-offset-4 col-md-2 col-xs-2" id="div-op2">
+					<button type="button" class="btn btn-default" id="btn-detalhe" style="display:none">Detalhes</button>
+				</div>
+				<div class="col-lg-3" id="div-op">
+					<button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-insert" id="btn-inserir">Inserir</button>
+					<button type="button" class="btn btn-default" id="btn-alterar">Alterar</button>
+					<button type="button" class="btn btn-danger" id="btn-excluir">Desativar</button>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade modal-inserir" id="modal-insert" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+		  <div class="modal-dialog modal-lg" role="document">
+		    <div class="modal-content">
+		    	<div class="modal-header" id="header-form">Inserir</div>
+		    	<div class="modal-body">
+					<form class="form-horizontal" id="form-cliente" onsubmit="return IncluiUsuario();">
+					  <div class="form-group">
+					    <label for="inputNome" class="col-sm-2 control-label">Nome</label>
+					    <div class="col-sm-10">
+					      <input class="form-control" id="inputNome">
+					    </div>
+					  </div>					
+					  <div class="form-group">
+					    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+					    <div class="col-sm-10">
+					      <input type="email" class="form-control" id="inputEmail">
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label for="inputTelefone" class="col-sm-2 control-label">DDD Telefone</label>
+					    <div class="col-sm-10">
+					      <input class="form-control" id="inputTelefone" onSelect="$('#inputTelefone').unmask();" onblur="MascaraTelefone(1);">
+					    </div>
+					  </div>
+					  <div class="form-group">
+					  	<div class="col-md-10 col-md-offset-2">
+						  	<select id="lista-grupo">
+						  	</select>
+						  	<button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-grupo" id="btn-Igrupo">+</button>
+						</div>						
+					  </div>
+					  <div class="form-group">
+					    <div class="col-sm-offset-9 col-sm-3">
+					      <button type="submit" class="btn btn-success">Cadastrar</button>
+					      <button onclick="$('#modal-insert').modal('hide'); return false;" class="btn btn-success">Cancelar</button>
+					    </div>
+					  </div>
+					</form>
+				</div>
+		    </div>
+		  </div>
+		</div>
+		<div class="modal fade modal-alterar" id="modal-alterar" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+		  <div class="modal-dialog modal-lg" role="document">
+		    <div class="modal-content">
+		    	<div class="modal-header" id="header-form">Alterar</div>
+		    	<div class="modal-body">
+					<form class="form-horizontal" id="form-cliente" onsubmit="return AlteraUsuario();">
+					  <div class="form-group">
+					    <label for="inputNome" class="col-sm-2 control-label">Nome</label>
+					    <div class="col-sm-10">
+					      <input class="form-control" id="inputNome2">
+					    </div>
+					  </div>					
+					  <div class="form-group">
+					    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+					    <div class="col-sm-10">
+					      <input type="email" class="form-control" id="inputEmail2">
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <label for="inputTelefone" class="col-sm-2 control-label">DDD Telefone</label>
+					    <div class="col-sm-10">
+					      <input class="form-control" id="inputTelefone2" onSelect="$('#inputTelefone2').unmask();" onblur="MascaraTelefone(2);">
+					    </div>
+					  </div>
+					  <div class="form-group">
+					  	<div class="col-md-10 col-md-offset-2">
+						  	<select id="lista-grupo2">
+						  	</select>
+						  	<button type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-grupo" id="btn-Igrupo2">+</button>
+						</div>
+					  </div>
+					  <div class="form-group">
+					    <div class="col-sm-offset-9 col-sm-3">
+					      <button type="submit" class="btn btn-success">Salvar</button>
+					      <button onclick="$('#modal-alterar').modal('hide'); return false;" class="btn btn-success">Cancelar</button>
+					    </div>
+					  </div>
+					</form>
+				</div>
+		    </div>
+		  </div>
+		</div>
+		<div class="modal fade modal-alterar" id="modal-grupo" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+		  <div class="modal-dialog modal-lg" role="document">
+		    <div class="modal-content">
+		    	<div class="modal-header" id="header-form">Grupo de Usuario</div>
+		    	<div class="modal-body">
+					<form class="form-horizontal" id="form-cliente" onsubmit="return InsereDescricao();">
+					  <div class="form-group">
+					    <label for="inputNome" class="col-sm-2 control-label">Descricao</label>
+					    <div class="col-sm-10">
+					      <input class="form-control" id="inputDescricao">
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <div class="col-sm-offset-9 col-sm-3">
+					      <button type="submit" class="btn btn-success">Salvar</button>
+					      <button onclick="$('#modal-grupo').modal('hide'); return false;" class="btn btn-success">Cancelar</button>
+					    </div>
+					  </div>
+					</form>
+				</div>
+		    </div>
+		  </div>
+		</div>		
+		<div class="modal fade modal-exclusao" id="modal-exclusao" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+		  <div class="modal-dialog modal-lg" role="document">
+		    <div class="modal-content">
+		    	<div class="modal-header" id="header-form">Desativar</div>
+		    	<div class="modal-body">
+					<form class="form-horizontal" id="form-exclusao" onsubmit="return ExcluiUsuario();">
+					  <div class="form-group">
+					    <label for="inputNome" class="col-sm-2 control-label">Justificativa:</label>
+					    <div class="col-sm-10">
+					      <input class="form-control" id="inputJustificativa">
+					    </div>
+					  </div>
+					  <div class="form-group">
+					    <div class="col-sm-offset-9 col-sm-3">
+					      <button type="submit" class="btn btn-success">Salvar</button>
+					      <button onclick="$('#modal-exclusao').modal('hide'); return false;" class="btn btn-success">Cancelar</button>
+					    </div>
+					  </div>
+					</form>
+				</div>
+		    </div>
+		  </div>
+		</div>
+		<div class="modal fade modal-detalhes" id="modal-detalhes" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+		  <div class="modal-dialog modal-lg" role="document">
+		    <div class="modal-content">
+		    	<div class="modal-header" id="header-form">
+		    		Detalhes
+		    	</div>
+		    	<div class="modal-body">	
+				  <div class="form-group">
+				    <label for="inputNome" class="control-label">Justificativa:</label>
+				    <div>
+				      <textarea class="form-control" id="inputdetalhes" rows="3"></textarea>
+				    </div>
+				  </div>
+				  <div class="form-group">
+				    <div>
+				      <button onclick="$('#modal-detalhes').modal('hide'); return false;" class="btn btn-success">Fechar</button>
+				    </div>
+				  </div>
+				</div>
+		    </div>
+		  </div>
+		</div>					
+	</body>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.1.0.min.js">
+	</script>
+	<script type="text/javascript" src="js/jquery.mask.min.js"></script>
+	<script src="jquery.maskedinput.js" type="text/javascript"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">		
+	</script>
+	<script type="text/javascript" src="js/js-index.js"></script>
+</html>
